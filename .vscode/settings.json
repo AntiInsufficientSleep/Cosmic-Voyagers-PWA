@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Cosmic-Voyagers.sln"
+    "dotnet.defaultSolution": "Cosmic-Voyagers.sln",
+    "dotnet.preferCSharpExtension": true
 }
