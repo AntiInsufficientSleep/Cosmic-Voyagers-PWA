@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Manage the story.
@@ -141,7 +142,7 @@ public sealed class StoryManager : MonoBehaviour
         StartCoroutine(TypeMessage(message.Content.Replace("[主人公の名前]", MainCharacterName)));
     }
 
-    private void SetCurrentChapter(Chapter chapter, bool isFromGoBack = false)
+    public void SetCurrentChapter(Chapter chapter, bool isFromGoBack = false)
     {
         if (!isFromGoBack)
         {
@@ -188,6 +189,7 @@ public sealed class StoryManager : MonoBehaviour
         switch (nextBranches.Length)
         {
             case 0:
+                SceneManager.LoadScene("EndrollScene");
                 break;
 
             case 1:
