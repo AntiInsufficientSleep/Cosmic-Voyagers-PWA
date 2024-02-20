@@ -1,4 +1,4 @@
-const cacheName = "DefaultCompany-Cosmic Voyagers-0.0.362";
+const cacheName = "DefaultCompany-Cosmic Voyagers-0.0.367";
 const contentToCache = [
     "Build/WebGL.loader.js",
     "Build/WebGL.framework.js",
