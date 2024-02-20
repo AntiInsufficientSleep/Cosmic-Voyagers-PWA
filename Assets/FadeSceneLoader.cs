@@ -1,45 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
-public class Endingroll : MonoBehaviour
+public class FadeSceneLoader : MonoBehaviour
 {
-    Vector3 Staffrollposition;
-    public RectTransform rectTransform;
-    public float Endpos;
-    public FadeSceneLoader fadeSceneLoader;
     public Image fadePanel;
     public float fadeDuration = 1.0f;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        Staffrollposition = rectTransform.anchoredPosition;
-        fadeSceneLoader = FindObjectOfType<FadeSceneLoader>();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        if (rectTransform.anchoredPosition.y < Endpos) {
-
-            Staffrollposition.y += 0.2f;
-            rectTransform.anchoredPosition = Staffrollposition;
-        }
-        if (rectTransform.anchoredPosition.y > Endpos) {
-
-            CallCoroutine();
-        }
-
-    }
-
-        //追加した部分
+    //追加した部分
     public void CallCoroutine()
     {
         StartCoroutine(FadeOutAndLoadScene());
@@ -62,8 +31,6 @@ public class Endingroll : MonoBehaviour
         }
 
         fadePanel.color = endColor;  // フェードが完了したら最終色に設定
-        SceneManager.LoadScene("ContinueScene");
-
+        SceneManager.LoadScene("StoryScene"); // シーンをロードしてメニューシーンに遷移
     }
-
 }
