@@ -23,7 +23,7 @@ jobs:
 
       - name: Merge iOS Simulator
         run: |
-          git remote add ios-simulator git@github.com:AntiInsufficientSleep/Cosmic-Voyagers-iOS-Simulator.git
+          git remote add ios-simulator https://github.com/AntiInsufficientSleep/Cosmic-Voyagers-iOS-Simulator.git
           git fetch ios-simulator
           git checkout -b ios-simulator ios-simulator/main
           git merge main
