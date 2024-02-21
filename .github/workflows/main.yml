@@ -26,6 +26,7 @@ jobs:
           - PS4 # Build a PS4 standalone.
           - PS5 # Build to PlayStation 5 platform.
           - XboxOne # Build an Xbox One standalone.
+          - tvOS # Build a tvOS player.
 
     steps:
       - name: Checkout
