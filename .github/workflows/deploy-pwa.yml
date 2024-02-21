@@ -66,3 +66,4 @@ jobs:
           external_repository: AntiInsufficientSleep/Cosmic-Voyagers-PWA
           publish_dir: ./build/WebGL/WebGL
           keep_files: true
+          cname: pwa.cosmic-voyagers.space

@@ -61,10 +61,34 @@ jobs:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
 
+      - name: Create Deploy Directory
+        if: matrix.targetPlatform == 'WebGL'
+        run: |
+          mkdir deploy
+
+      - name: Copy WebGL Build to Deploy Directory
+        if: matrix.targetPlatform == 'WebGL'
+        run: |
+          cp -R build/WebGL/WebGL/* deploy/
+
+      - name: Copy App Store Privacy Policy to Deploy Directory
+        if: matrix.targetPlatform == 'WebGL'
+        run : |
+          mkdir deploy/AppStore
+          cp AppleAppStorePrivacyPolicy.md deploy/AppStore/PrivacyPolicy.md
+
+      - name: Copy Play Store Privacy Policy to Deploy Directory
+        if: matrix.targetPlatform == 'WebGL'
+        run : |
+          mkdir deploy/PlayStore
+          cp GooglePlayStorePrivacyPolicy.md deploy/PlayStore/PrivacyPolicy.md
+
       - name: Deploy to GitHub Pages
         if: matrix.targetPlatform == 'WebGL'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/WebGL/WebGL
+          publish_dir: deploy
           keep_files: true
+          enable_jekyll: true
+          cname: www.cosmic-voyagers.space

@@ -56,7 +56,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/WebGL/WebGL
           keep_files: true
+          enable_jekyll: true
           destination_dir: ${{ env.DEPLOY_PATH }}
+          cname: www.cosmic-voyagers.space
 
       - name: Comment PR with Deploy URL
         uses: actions/github-script@v7

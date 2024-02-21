@@ -56,7 +56,22 @@ public sealed class StoryManager : MonoBehaviour
     {
         _isMessageInterrupted = true;
         message.text = "";
-        SetCurrentChapter(currentChapter.PreviousChapter, true);
+        Chapter chapterToSet = currentChapter.PreviousChapter;
+
+        while (!ReferenceEquals(chapterToSet, null) && chapterToSet.nextBranches.Length < 2)
+        {
+            chapterToSet = chapterToSet.PreviousChapter;
+
+            if (ReferenceEquals(chapterToSet, chapterToSet))
+            {
+                break;
+            }
+        }
+
+        if (!ReferenceEquals(chapterToSet, null))
+        {
+            SetCurrentChapter(chapterToSet, true);
+        }
     }
 
     /// <summary>
@@ -121,7 +136,7 @@ public sealed class StoryManager : MonoBehaviour
             }
         }
     }
-    
+
     private void SetMessage()
     {
         Message message = currentChapter.messages[MessageIndex];
@@ -246,4 +261,3 @@ public sealed class StoryManager : MonoBehaviour
         _isFinishMessage = true;
     }
 }
-
