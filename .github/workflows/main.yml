@@ -23,6 +23,7 @@ jobs:
           - iOS # Build an iOS player.
           - Android # Build an Android .apk standalone app.
           - WebGL # WebGL.
+          - PS4 # Build a PS4 standalone.
 
     steps:
       - name: Checkout
