@@ -46,14 +46,8 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          unityVersion: '2022.3.17f1'
+          unityVersion: '2022.3.20f1'
           targetPlatform: ${{ matrix.targetPlatform }}
-          androidExportType: ${{ matrix.targetPlatform == 'Android' && 'androidAppBundle' || '' }}
-          androidKeystoreName: ${{ matrix.targetPlatform == 'Android' && secrets.KEYSTORE_NAME }}
-          androidKeystoreBase64: ${{ matrix.targetPlatform == 'Android' && secrets.KEYSTORE_FILE }}
-          androidKeystorePass: ${{ matrix.targetPlatform == 'Android' && secrets.KEYSTORE_PASSWORD }}
-          androidKeyaliasName: ${{ matrix.targetPlatform == 'Android' && secrets.KEY_ALIAS }}
-          androidKeyaliasPass: ${{ matrix.targetPlatform == 'Android' && secrets.KEY_PASSWORD }}
 
       - name: Upload Build
         uses: actions/upload-artifact@v4
