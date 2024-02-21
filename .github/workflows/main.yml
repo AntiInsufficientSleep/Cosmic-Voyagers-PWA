@@ -25,6 +25,7 @@ jobs:
           - WebGL # WebGL.
           - PS4 # Build a PS4 standalone.
           - PS5 # Build to PlayStation 5 platform.
+          - XboxOne # Build an Xbox One standalone.
 
     steps:
       - name: Checkout
