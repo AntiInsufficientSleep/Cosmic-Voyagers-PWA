@@ -24,6 +24,7 @@ jobs:
           - Android # Build an Android .apk standalone app.
           - WebGL # WebGL.
           - PS4 # Build a PS4 standalone.
+          - PS5 # Build to PlayStation 5 platform.
 
     steps:
       - name: Checkout
