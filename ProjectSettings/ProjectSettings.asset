@@ -139,6 +139,8 @@ PlayerSettings:
   vulkanEnableLateAcquireNextImage: 0
   vulkanEnableCommandBufferRecycling: 1
   loadStoreDebugModeEnabled: 0
+  visionOSBundleVersion: 1.0
+  tvOSBundleVersion: 1.0
   bundleVersion: 1.0
   preloadedAssets: []
   metroInputSource: 0
@@ -829,8 +831,8 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Cosmic Voyagers
-  metroPackageVersion: 
+  metroPackageName: CosmicVoyagers
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -838,7 +840,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: Cosmic Voyagers
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: Cosmic Voyagers
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
