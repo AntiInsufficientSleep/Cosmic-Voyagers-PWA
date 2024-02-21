@@ -28,6 +28,7 @@ jobs:
           - XboxOne # Build an Xbox One standalone.
           - tvOS # Build a tvOS player.
           - Switch # Build a Nintendo Switch player.
+          - VisionOS # Build a visionOS player.
 
     steps:
       - name: Checkout
