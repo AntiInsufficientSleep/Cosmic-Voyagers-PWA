@@ -60,6 +60,11 @@ public sealed class StoryManager : MonoBehaviour
         while (!ReferenceEquals(chapterToSet, null) && chapterToSet.nextBranches.Length < 2)
         {
             chapterToSet = chapterToSet.PreviousChapter;
+
+            if (ReferenceEquals(chapterToSet, chapterToSet))
+            {
+                break;
+            }
         }
 
         if (!ReferenceEquals(chapterToSet, null))
