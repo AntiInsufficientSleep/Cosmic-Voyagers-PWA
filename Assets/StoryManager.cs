@@ -34,6 +34,14 @@ public sealed class StoryManager : MonoBehaviour
     [SerializeField]
     private TMP_InputField mainCharNameInputField;
 
+    [SerializeField]
+    private GameObject _message;
+
+    [SerializeField]
+    private GameObject _ending;
+    [SerializeField]
+    private TextMeshProUGUI _endingMessageText;
+
     public int MessageIndex { get; private set; } = 0;
 
     public string MainCharacterName { get => mainCharacterName; private set => mainCharacterName = value; }
@@ -49,6 +57,21 @@ public sealed class StoryManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Restart the story.
+    /// </summary>
+    public void Restart()
+    {
+        Chapter firstChapter = currentChapter;
+
+        while (!ReferenceEquals(firstChapter.PreviousChapter, firstChapter))
+        {
+            firstChapter = firstChapter.PreviousChapter;
+        }
+
+        SetCurrentChapter(firstChapter);
+    }
+
+    /// <summary>
     /// Go back to the previous chapter.
     /// </summary>
     public void GoBack()
@@ -59,12 +82,12 @@ public sealed class StoryManager : MonoBehaviour
 
         while (!ReferenceEquals(chapterToSet, null) && chapterToSet.nextBranches.Length < 2)
         {
-            chapterToSet = chapterToSet.PreviousChapter;
-
-            if (ReferenceEquals(chapterToSet, chapterToSet))
+            if (ReferenceEquals(chapterToSet, chapterToSet.PreviousChapter))
             {
                 break;
             }
+
+            chapterToSet = chapterToSet.PreviousChapter;
         }
 
         if (!ReferenceEquals(chapterToSet, null))
@@ -158,6 +181,9 @@ public sealed class StoryManager : MonoBehaviour
 
     private void SetCurrentChapter(Chapter chapter, bool isFromGoBack = false)
     {
+        _ending.SetActive(false);
+        _message.SetActive(true);
+
         if (!isFromGoBack)
         {
             chapter.PreviousChapter = currentChapter;
@@ -196,6 +222,13 @@ public sealed class StoryManager : MonoBehaviour
         SetCurrentChapter(currentChapter.nextBranches[index].chapter);
     }
 
+    private void ShowEnding()
+    {
+        _ending.SetActive(true);
+        _message.SetActive(false);
+        _endingMessageText.text = $"エンディング「{currentChapter.EndingName}」クリア！";
+    }
+
     private void SetNextChapter()
     {
         Branch[] nextBranches = currentChapter.nextBranches;
@@ -203,6 +236,7 @@ public sealed class StoryManager : MonoBehaviour
         switch (nextBranches.Length)
         {
             case 0:
+                ShowEnding();
                 break;
 
             case 1:
