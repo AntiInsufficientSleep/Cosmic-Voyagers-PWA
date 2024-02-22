@@ -75,3 +75,19 @@ jobs:
           keep_files: true
           enable_jekyll: true
           cname: www.cosmic-voyagers.space
+
+  unity-build-windows:
+    name: Build for ${{ matrix.targetPlatform }} in {{ runner.os }}
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - WSAPlayer # Build a Windows Store Apps player.
+
+    steps:
+      - name: Checkout and Build
+        uses: ./.github/actions/checkout-and-build
+        with:
+          targetPlatform: ${{ matrix.targetPlatform }}
+          unityVersion: '2022.3.20f1'
