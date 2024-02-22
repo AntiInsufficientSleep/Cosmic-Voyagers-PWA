@@ -50,7 +50,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          unityVersion: '2022.3.17f1'
+          unityVersion: '2022.3.20f1'
           targetPlatform: WebGL
 
       - name: Upload Build
@@ -66,3 +66,4 @@ jobs:
           external_repository: AntiInsufficientSleep/Cosmic-Voyagers-PWA
           publish_dir: ./build/WebGL/WebGL
           keep_files: true
+          cname: pwa.cosmic-voyagers.space
