@@ -35,7 +35,7 @@ public sealed class StoryManager : MonoBehaviour
     private TMP_InputField mainCharNameInputField;
 
     [SerializeField]
-    private Image _message;
+    private GameObject _message;
 
     [SerializeField]
     private GameObject _ending;
