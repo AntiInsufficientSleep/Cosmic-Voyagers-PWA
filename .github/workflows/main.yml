@@ -7,7 +7,7 @@ on:
 
 jobs:
   unity-build-linux:
-    name: Build for ${{ matrix.targetPlatform }} in {{ runner.os }}
+    name: Build for ${{ matrix.targetPlatform }} in Ubuntu
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -77,7 +77,7 @@ jobs:
           cname: www.cosmic-voyagers.space
 
   unity-build-windows:
-    name: Build for ${{ matrix.targetPlatform }} in {{ runner.os }}
+    name: Build for ${{ matrix.targetPlatform }} in Windows
     runs-on: windows-latest
     strategy:
       fail-fast: false
