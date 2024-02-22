@@ -49,6 +49,21 @@ public sealed class StoryManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Restart the story.
+    /// </summary>
+    public void Restart()
+    {
+        Chapter firstChapter = currentChapter;
+
+        while (!ReferenceEquals(firstChapter.PreviousChapter, firstChapter))
+        {
+            firstChapter = firstChapter.PreviousChapter;
+        }
+
+        SetCurrentChapter(firstChapter);
+    }
+
+    /// <summary>
     /// Go back to the previous chapter.
     /// </summary>
     public void GoBack()
