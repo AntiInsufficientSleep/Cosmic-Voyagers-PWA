@@ -34,6 +34,14 @@ public sealed class StoryManager : MonoBehaviour
     [SerializeField]
     private TMP_InputField mainCharNameInputField;
 
+    [SerializeField]
+    private Image _message;
+
+    [SerializeField]
+    private GameObject _ending;
+    [SerializeField]
+    private TextMeshProUGUI _endingMessageText;
+
     public int MessageIndex { get; private set; } = 0;
 
     public string MainCharacterName { get => mainCharacterName; private set => mainCharacterName = value; }
