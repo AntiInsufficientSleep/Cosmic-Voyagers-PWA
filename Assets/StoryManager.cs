@@ -181,6 +181,9 @@ public sealed class StoryManager : MonoBehaviour
 
     private void SetCurrentChapter(Chapter chapter, bool isFromGoBack = false)
     {
+        _ending.SetActive(false);
+        _message.SetActive(true);
+
         if (!isFromGoBack)
         {
             chapter.PreviousChapter = currentChapter;
@@ -219,6 +222,13 @@ public sealed class StoryManager : MonoBehaviour
         SetCurrentChapter(currentChapter.nextBranches[index].chapter);
     }
 
+    private void ShowEnding()
+    {
+        _ending.SetActive(true);
+        _message.SetActive(false);
+        _endingMessageText.text = currentChapter.EndingName;
+    }
+
     private void SetNextChapter()
     {
         Branch[] nextBranches = currentChapter.nextBranches;
@@ -226,6 +236,7 @@ public sealed class StoryManager : MonoBehaviour
         switch (nextBranches.Length)
         {
             case 0:
+                ShowEnding();
                 break;
 
             case 1:
