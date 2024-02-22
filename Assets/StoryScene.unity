@@ -5774,7 +5774,7 @@ MonoBehaviour:
   characterName: {fileID: 496870861}
   mainCharacterName: "\u3051\u3093\u3068"
   mainCharNameInputField: {fileID: 225295213}
-  _message: {fileID: 1867197910}
+  _message: {fileID: 1867197908}
   _ending: {fileID: 286959495}
   _endingMessageText: {fileID: 1723068937}
 --- !u!1 &1827008345
