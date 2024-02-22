@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  unity-build:
+  unity-build-linux:
     name: Build for ${{ matrix.targetPlatform }} in {{ runner.os }}
     runs-on: ubuntu-latest
     permissions:
