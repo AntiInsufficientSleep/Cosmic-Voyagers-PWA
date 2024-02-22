@@ -18,10 +18,17 @@ jobs:
           - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
           - StandaloneWindows # Build a Windows standalone.
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
+          - WSAPlayer # Build a Windows Store Apps player.
           - StandaloneLinux64 # Build a Linux 64-bit standalone.
           - iOS # Build an iOS player.
           - Android # Build an Android .apk standalone app.
           - WebGL # WebGL.
+          - PS4 # Build a PS4 standalone.
+          - PS5 # Build to PlayStation 5 platform.
+          - XboxOne # Build an Xbox One standalone.
+          - tvOS # Build a tvOS player.
+          - Switch # Build a Nintendo Switch player.
+          - VisionOS # Build a visionOS player.
 
     steps:
       - name: Checkout
