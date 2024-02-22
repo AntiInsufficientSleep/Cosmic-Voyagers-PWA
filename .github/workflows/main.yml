@@ -44,7 +44,8 @@ jobs:
 
       - name: Extend Free Disk Space
         if: >-
-          matrix.targetPlatform == 'Android'
+          matrix.targetPlatform == 'Android' ||
+          matrix.targetPlatform == 'PS4'
         uses: jlumbroso/free-disk-space@main
 
       - name: Build Projects
