@@ -226,7 +226,7 @@ public sealed class StoryManager : MonoBehaviour
     {
         _ending.SetActive(true);
         _message.SetActive(false);
-        _endingMessageText.text = currentChapter.EndingName;
+        _endingMessageText.text = $"エンディング「{currentChapter.EndingName}」クリア！";
     }
 
     private void SetNextChapter()
