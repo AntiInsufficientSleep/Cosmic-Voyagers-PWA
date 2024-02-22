@@ -7,7 +7,7 @@ on:
 
 jobs:
   unity-build:
-    name: Build for ${{ matrix.targetPlatform }}
+    name: Build for ${{ matrix.targetPlatform }} in {{ runner.os }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
