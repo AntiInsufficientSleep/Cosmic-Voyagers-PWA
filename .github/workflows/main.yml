@@ -7,7 +7,7 @@ on:
 
 jobs:
   unity-build-linux:
-    name: Build for ${{ matrix.targetPlatform }} in {{ runner.os }}
+    name: Build for ${{ matrix.targetPlatform }} in Ubuntu
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -30,6 +30,9 @@ jobs:
 #          - VisionOS # Build a visionOS player.
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Extend Free Disk Space
         if: >-
           matrix.targetPlatform == 'Android' ||
@@ -38,7 +41,7 @@ jobs:
           matrix.targetPlatform == 'Switch'
         uses: jlumbroso/free-disk-space@main
 
-      - name: Checkout and Build
+      - name: Build
         uses: ./.github/actions/checkout-and-build
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
@@ -77,7 +80,7 @@ jobs:
           cname: www.cosmic-voyagers.space
 
   unity-build-windows:
-    name: Build for ${{ matrix.targetPlatform }} in {{ runner.os }}
+    name: Build for ${{ matrix.targetPlatform }} in Windows
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -86,7 +89,10 @@ jobs:
           - WSAPlayer # Build a Windows Store Apps player.
 
     steps:
-      - name: Checkout and Build
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build
         uses: ./.github/actions/checkout-and-build
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
