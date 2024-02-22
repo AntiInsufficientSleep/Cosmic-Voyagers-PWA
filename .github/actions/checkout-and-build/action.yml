@@ -1,5 +1,5 @@
-name: 'Checkout and Build'
-description: 'Checkout code and build project'
+name: Build
+description: Build project for target platform
 inputs:
   targetPlatform:
     description: 'The target platform to build for'
@@ -11,9 +11,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
     - name: Cache Library
       uses: actions/cache@v4
       with:
