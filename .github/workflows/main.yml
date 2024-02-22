@@ -46,7 +46,8 @@ jobs:
         if: >-
           matrix.targetPlatform == 'Android' ||
           matrix.targetPlatform == 'PS4' ||
-          matrix.targetPlatform == 'XboxOne'
+          matrix.targetPlatform == 'XboxOne' ||
+          matrix.targetPlatform == 'Switch'
         uses: jlumbroso/free-disk-space@main
 
       - name: Build Projects
