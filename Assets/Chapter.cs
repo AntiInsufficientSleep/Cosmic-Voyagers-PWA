@@ -9,6 +9,7 @@ public sealed class Chapter : ScriptableObject
     public AudioClip backGroundMusic;
     public Message[] messages;
     public Branch[] nextBranches = Array.Empty<Branch>();
+    public string EndingName;
     public Chapter PreviousChapter
     {
         get
