@@ -10,7 +10,6 @@ public class Endingroll : MonoBehaviour
     Vector3 Staffrollposition;
     public RectTransform rectTransform;
     public float Endpos;
-    public FadeSceneLoader fadeSceneLoader;
     public Image fadePanel;
     public float fadeDuration = 1.0f;
 
@@ -19,7 +18,6 @@ public class Endingroll : MonoBehaviour
     void Start()
     {
         Staffrollposition = rectTransform.anchoredPosition;
-        fadeSceneLoader = FindObjectOfType<FadeSceneLoader>();
 
     }
 
