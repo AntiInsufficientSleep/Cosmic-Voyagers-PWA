@@ -14,13 +14,13 @@ public class Endingroll : MonoBehaviour
     public float fadeDuration = 1.0f;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         Staffrollposition = rectTransform.anchoredPosition;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
 
         if (rectTransform.anchoredPosition.y < Endpos)
@@ -34,7 +34,7 @@ public class Endingroll : MonoBehaviour
         }
     }
 
-    public IEnumerator FadeOutAndLoadScene()
+    private IEnumerator FadeOutAndLoadScene()
     {
         fadePanel.enabled = true;                 // パネルを有効化
         float elapsedTime = 0.0f;                 // 経過時間を初期化
