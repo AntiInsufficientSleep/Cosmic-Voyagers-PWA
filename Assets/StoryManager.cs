@@ -180,7 +180,7 @@ public sealed class StoryManager : MonoBehaviour
         StartCoroutine(TypeMessage(message.Content.Replace("[主人公の名前]", MainCharacterName)));
     }
 
-    public void SetCurrentChapter(Chapter chapter, bool isFromGoBack = false)
+    private void SetCurrentChapter(Chapter chapter, bool isFromGoBack = false)
     {
         _ending.SetActive(false);
         _message.SetActive(true);
