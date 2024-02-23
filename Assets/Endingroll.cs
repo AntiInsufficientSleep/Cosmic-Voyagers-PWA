@@ -13,12 +13,10 @@ public class Endingroll : MonoBehaviour
     public Image fadePanel;
     public float fadeDuration = 1.0f;
 
-
     // Start is called before the first frame update
     void Start()
     {
         Staffrollposition = rectTransform.anchoredPosition;
-
     }
 
     // Update is called once per frame
@@ -36,7 +34,6 @@ public class Endingroll : MonoBehaviour
 
             CallCoroutine();
         }
-
     }
 
     //追加した部分
@@ -63,7 +60,5 @@ public class Endingroll : MonoBehaviour
 
         fadePanel.color = endColor;  // フェードが完了したら最終色に設定
         SceneManager.LoadScene("ContinueScene");
-
     }
-
 }
