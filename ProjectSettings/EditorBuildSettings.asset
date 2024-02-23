@@ -14,7 +14,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/EndrollScene.unity
     guid: 682354b4ce5cff941acbfbbb3dac7a09
-  - enabled: 1
-    path: Assets/ContinueScene.unity
-    guid: d3fb2ee1b176c5c43ac8474ba1d04203
   m_configObjects: {}
