@@ -388,9 +388,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'START
-
-'
+  m_text: "\u7269\u8A9E\u3092\u59CB\u3081\u308B\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c1794faf1d6d76f49ac8bb4043cc48be, type: 2}
   m_sharedMaterial: {fileID: -1471750096492094730, guid: c1794faf1d6d76f49ac8bb4043cc48be, type: 2}
