@@ -21,7 +21,6 @@ public class Endingroll : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
         if (rectTransform.anchoredPosition.y < Endpos)
         {
             Staffrollposition.y += 0.2f;
