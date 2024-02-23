@@ -9,7 +9,7 @@ public class Endingroll : MonoBehaviour
     public RectTransform rectTransform;
     public float Endpos;
     public Image fadePanel;
-    public float fadeDuration = 1.0f;
+    public float fadeDuration = 2.0f;
 
     // Start is called before the first frame update
     private void Start()
