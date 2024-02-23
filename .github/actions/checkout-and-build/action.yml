@@ -7,6 +7,15 @@ inputs:
   unityVersion:
     description: 'Unity version'
     required: true
+  unityEmail:
+    description: 'Unity Email'
+    required: true
+  unityPassword:
+    description: 'Unity Password'
+    required: true
+  unityLicense:
+    description: 'Unity License'
+    required: true
 
 runs:
   using: 'composite'
@@ -22,9 +31,9 @@ runs:
     - name: Build Projects
       uses: game-ci/unity-builder@v4
       env:
-        UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-        UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        UNITY_EMAIL: ${{ inputs.unityEmail }}
+        UNITY_PASSWORD: ${{ inputs.unityPassword }}
+        UNITY_LICENSE: ${{ inputs.unityLicense }}
       with:
         unityVersion: ${{ inputs.unityVersion }}
         targetPlatform: ${{ inputs.targetPlatform }}

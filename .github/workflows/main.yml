@@ -46,6 +46,9 @@ jobs:
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
           unityVersion: '2022.3.20f1'
+          unityEmail: ${{ secrets.UNITY_EMAIL }}
+          unityPassword: ${{ secrets.UNITY_PASSWORD }}
+          unityLicense: ${{ secrets.UNITY_LICENSE }}
 
       - name: Create Deploy Directory
         if: matrix.targetPlatform == 'WebGL'
@@ -97,3 +100,6 @@ jobs:
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
           unityVersion: '2022.3.20f1'
+          unityEmail: ${{ secrets.UNITY_EMAIL }}
+          unityPassword: ${{ secrets.UNITY_PASSWORD }}
+          unityLicense: ${{ secrets.UNITY_LICENSE }}
