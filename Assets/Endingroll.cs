@@ -33,7 +33,6 @@ public class Endingroll : MonoBehaviour
 
     private IEnumerator FadeOutAndLoadScene()
     {
-        fadePanel.enabled = true;                 // パネルを有効化
         float elapsedTime = 0.0f;                 // 経過時間を初期化
         Color startColor = fadePanel.color;       // フェードパネルの開始色を取得
         Color endColor = new(startColor.r, startColor.g, startColor.b, 1.0f); // フェードパネルの最終色を設定
