@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
 public class Endingroll : MonoBehaviour
 {
     Vector3 Staffrollposition;
