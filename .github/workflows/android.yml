@@ -44,5 +44,5 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_KEY }}
           packageName: space.cosmicvoyagers
-          releaseFiles: build/Android/Android.abb
+          releaseFiles: build/Android/Android.aab
           track: internal
