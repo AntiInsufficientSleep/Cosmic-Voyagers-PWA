@@ -25,19 +25,21 @@ public class Endingroll : MonoBehaviour
     void Update()
     {
 
-        if (rectTransform.anchoredPosition.y < Endpos) {
+        if (rectTransform.anchoredPosition.y < Endpos)
+        {
 
             Staffrollposition.y += 0.2f;
             rectTransform.anchoredPosition = Staffrollposition;
         }
-        if (rectTransform.anchoredPosition.y > Endpos) {
+        if (rectTransform.anchoredPosition.y > Endpos)
+        {
 
             CallCoroutine();
         }
 
     }
 
-        //追加した部分
+    //追加した部分
     public void CallCoroutine()
     {
         StartCoroutine(FadeOutAndLoadScene());
