@@ -372,7 +372,6 @@ GameObject:
   m_Component:
   - component: {fileID: 845777685}
   - component: {fileID: 845777684}
-  - component: {fileID: 845777683}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -380,14 +379,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &845777683
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 845777682}
-  m_Enabled: 1
 --- !u!20 &845777684
 Camera:
   m_ObjectHideFlags: 0
@@ -672,7 +663,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 1518090427}
   Endpos: 1600
-  fadeSceneLoader: {fileID: 0}
   fadePanel: {fileID: 1594831648}
   fadeDuration: 1
 --- !u!114 &1071673920
