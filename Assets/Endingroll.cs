@@ -48,6 +48,6 @@ public class Endingroll : MonoBehaviour
         }
 
         fadePanel.color = endColor;  // フェードが完了したら最終色に設定
-        SceneManager.UnloadSceneAsync("EndrollScene");
+        SceneManager.UnloadSceneAsync(2);
     }
 }

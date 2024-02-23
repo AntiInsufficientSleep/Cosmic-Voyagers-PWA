@@ -7,6 +7,6 @@ public class SceneManagement : MonoBehaviour
 {
     public void Scenemg()
     {
-        SceneManager.LoadScene("StoryScene");
+        SceneManager.LoadScene(1);
     }
 }

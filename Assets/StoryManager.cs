@@ -237,7 +237,7 @@ public sealed class StoryManager : MonoBehaviour
         switch (nextBranches.Length)
         {
             case 0:
-                SceneManager.LoadScene("EndrollScene", LoadSceneMode.Additive);
+                SceneManager.LoadScene(2, LoadSceneMode.Additive);
                 ShowEnding();
                 break;
 
