@@ -137,6 +137,11 @@ public sealed class StoryManager : MonoBehaviour
             return;
         }
 
+        if (_ending.activeSelf)
+        {
+            return;
+        }
+
         if (_isNextMessageRequested)
         {
             _isNextMessageRequested = false;
