@@ -31,15 +31,8 @@ public class Endingroll : MonoBehaviour
         }
         if (rectTransform.anchoredPosition.y > Endpos)
         {
-
-            CallCoroutine();
+            StartCoroutine(FadeOutAndLoadScene());
         }
-    }
-
-    //追加した部分
-    public void CallCoroutine()
-    {
-        StartCoroutine(FadeOutAndLoadScene());
     }
 
     public IEnumerator FadeOutAndLoadScene()
