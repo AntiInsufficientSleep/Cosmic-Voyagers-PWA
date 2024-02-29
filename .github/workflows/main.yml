@@ -25,7 +25,6 @@ jobs:
           - PS4 # Build a PS4 standalone.
 #          - PS5 # Build to PlayStation 5 platform.
           - XboxOne # Build an Xbox One standalone.
-          - tvOS # Build a tvOS player.
           - Switch # Build a Nintendo Switch player.
 #          - VisionOS # Build a visionOS player.
 
@@ -90,6 +89,7 @@ jobs:
       matrix:
         targetPlatform:
           - WSAPlayer # Build a Windows Store Apps player.
+          - tvOS # Build a tvOS player.
 
     steps:
       - name: Checkout
