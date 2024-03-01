@@ -1,4 +1,4 @@
-const cacheName = "徹夜はするな。睡眠不足は良い仕事の敵だ。-Cosmic Voyagers-0.0.515";
+const cacheName = "徹夜はするな。睡眠不足は良い仕事の敵だ。-Cosmic Voyagers-0.0.518";
 const contentToCache = [
     "Build/WebGL.loader.js",
     "Build/WebGL.framework.js",
