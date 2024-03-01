@@ -1,0 +1,45 @@
+name: Build
+description: Build project for target platform
+inputs:
+  targetPlatform:
+    description: 'The target platform to build for'
+    required: true
+  unityVersion:
+    description: 'Unity version'
+    required: true
+  unityEmail:
+    description: 'Unity Email'
+    required: true
+  unityPassword:
+    description: 'Unity Password'
+    required: true
+  unityLicense:
+    description: 'Unity License'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Cache Library
+      uses: actions/cache@v4
+      with:
+        path: Library
+        key: ${{ runner.os }}-${{ inputs.targetPlatform }}-library-${{ hashFiles('**/Library/*') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ inputs.targetPlatform }}-library-
+
+    - name: Build Projects
+      uses: game-ci/unity-builder@v4
+      env:
+        UNITY_EMAIL: ${{ inputs.unityEmail }}
+        UNITY_PASSWORD: ${{ inputs.unityPassword }}
+        UNITY_LICENSE: ${{ inputs.unityLicense }}
+      with:
+        unityVersion: ${{ inputs.unityVersion }}
+        targetPlatform: ${{ inputs.targetPlatform }}
+
+    - name: Upload Build
+      uses: actions/upload-artifact@v4
+      with:
+        name: Build-${{ inputs.targetPlatform }}
+        path: build/${{ inputs.targetPlatform }}

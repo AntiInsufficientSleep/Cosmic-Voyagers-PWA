@@ -1,0 +1,69 @@
+name: Unity PWA Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  unity-build:
+    name: Build for WebGL
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Merge PWA
+        run: |
+          git remote add pwa https://github.com/AntiInsufficientSleep/Cosmic-Voyagers-PWA.git
+          git fetch pwa
+          git checkout -b pwa pwa/main
+          git merge main
+#          if git merge main; then
+#            echo "Merge succeeded, continuing with the next steps."
+#          else
+#            echo "Merge failed, creating a pull request from origin/main to pwa and skipping the next steps."
+#            gh pr create --title "Merge main into pwa/main" --body "Automatic PR created due to merge failure in CI/CD pipeline." --base main --head main --repo AntiInsufficientSleep/Cosmic-Voyagers-PWA
+#            exit 1
+#          fi
+
+      - name: Cache Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: ${{ runner.os }}-WebGL-PWA-library-${{ hashFiles('**/Library/*') }}
+          restore-keys: |
+            ${{ runner.os }}-WebGL-PWA-library-
+
+      - name: Build Projects
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          unityVersion: '2022.3.20f1'
+          targetPlatform: WebGL
+
+      - name: Upload Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build-WebGL-PWA
+          path: build/WebGL
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.PWA_DEPLOY_KEY }}
+          external_repository: AntiInsufficientSleep/Cosmic-Voyagers-PWA
+          publish_dir: ./build/WebGL/WebGL
+          keep_files: true
+          cname: pwa.cosmic-voyagers.space

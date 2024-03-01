@@ -2,14 +2,17 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Manage the story.
+/// </summary>
 public sealed class StoryManager : MonoBehaviour
 {
-    private static readonly WaitForSeconds delay = new(0.1f);
-    private const string bgmOnText = "BGM オン";
-    private const string bgmOffText = "BGM オフ";
+    private static readonly WaitForSeconds delay = new(0.075f);
 
-    private Chapter previousChapter;
+    [SerializeField]
+    private GameManager gameManager;
 
     [SerializeField]
     private Chapter currentChapter;
@@ -27,207 +30,101 @@ public sealed class StoryManager : MonoBehaviour
     private TextMeshProUGUI characterName;
 
     [SerializeField]
-    private GameObject pauseButton;
-
-    [SerializeField]
-    private GameObject pauseMenu;
-
-    [SerializeField]
-    private Slider bgmVolumeSlider;
+    private string mainCharacterName = "けんと";
 
     [SerializeField]
     private TMP_InputField mainCharNameInputField;
 
     [SerializeField]
-    private TextMeshProUGUI bgmToggleButtonText;
+    private GameObject _message;
 
     [SerializeField]
-    private GameObject selection2;
+    private GameObject _ending;
     [SerializeField]
-    private TextMeshProUGUI selection2option1text;
-    [SerializeField]
-    private TextMeshProUGUI selection2option2text;
-
-    [SerializeField]
-    private GameObject selection3;
-    [SerializeField]
-    private TextMeshProUGUI selection3option1text;
-    [SerializeField]
-    private TextMeshProUGUI selection3option2text;
-    [SerializeField]
-    private TextMeshProUGUI selection3option3text;
-
-    [SerializeField]
-    private GameObject selection4;
-    [SerializeField]
-    private TextMeshProUGUI selection4option1text;
-    [SerializeField]
-    private TextMeshProUGUI selection4option2text;
-    [SerializeField]
-    private TextMeshProUGUI selection4option3text;
-    [SerializeField]
-    private TextMeshProUGUI selection4option4text;
-
-    [SerializeField]
-    private AudioSource audioSource;
+    private TextMeshProUGUI _endingMessageText;
 
     public int MessageIndex { get; private set; } = 0;
 
-    public string MainCharacterName { get; set; } = "けんと";
+    public string MainCharacterName { get => mainCharacterName; private set => mainCharacterName = value; }
 
-    private bool isFinishMessage = true;
-    private bool isMessageSkipRequested = false;
-    private bool isMessageInterrupted = false;
-    private bool isNextMessageRequested = false;
-    private bool isBgmOn = true;
-    private bool isBgmNull = true;
+    private bool _isFinishMessage = true;
+    private bool _isMessageSkipRequested = false;
+    private bool _isMessageInterrupted = false;
+    private bool _isNextMessageRequested = false;
 
     private void LogUnexpectedChapterError()
     {
         Debug.LogError("Unexpected number of next chapters");
     }
 
-    public void onSelection2Option1Click()
-    {
-        selection2.SetActive(false);
-        SetFirstNextBranch();
-    }
-
-    public void onSelection2Option2Click()
-    {
-        selection2.SetActive(false);
-        SetSecondNextBranch();
-    }
-
-    public void onSelection3Option1Click()
-    {
-        selection3.SetActive(false);
-        SetFirstNextBranch();
-    }
-
-    public void onSelection3Option2Click()
-    {
-        selection3.SetActive(false);
-        SetSecondNextBranch();
-    }
-
-    public void onSelection3Option3Click()
-    {
-        selection3.SetActive(false);
-        SetThirdNextBranch();
-    }
-
-    public void onSelection4Option1Click()
-    {
-        selection4.SetActive(false);
-        SetFirstNextBranch();
-    }
-
-    public void onSelection4Option2Click()
-    {
-        selection4.SetActive(false);
-        SetSecondNextBranch();
-    }
-
-    public void onSelection4Option3Click()
-    {
-        selection4.SetActive(false);
-        SetThirdNextBranch();
-    }
-
-    public void onSelection4Option4Click()
-    {
-        selection4.SetActive(false);
-        SetFourthNextBranch();
-    }
-
     /// <summary>
-    /// Pause or resume the game
+    /// Restart the story.
     /// </summary>
-    public void Pause()
+    public void Restart()
     {
-        if (Time.timeScale == 1)
+        Chapter firstChapter = currentChapter;
+
+        while (!ReferenceEquals(firstChapter.PreviousChapter, firstChapter))
         {
-            Time.timeScale = 0;
-            pauseButton.SetActive(false);
-            pauseMenu.SetActive(true);
+            firstChapter = firstChapter.PreviousChapter;
         }
-        else
-        {
-            Time.timeScale = 1;
-            pauseButton.SetActive(true);
-            pauseMenu.SetActive(false);
-        }
+
+        SetCurrentChapter(firstChapter);
     }
 
     /// <summary>
-    /// Switch the BGM on or off
-    /// </summary>
-    public void SwitchBgm()
-    {
-        isBgmOn = !isBgmOn;
-
-        if (isBgmNull)
-        {
-            return;
-        }
-
-        if (isBgmOn)
-        {
-            audioSource.Play();
-            bgmToggleButtonText.text = bgmOffText;
-        }
-        else
-        {
-            audioSource.Stop();
-            bgmToggleButtonText.text = bgmOnText;
-        }
-    }
-
-    /// <summary>
-    /// Change the volume of the BGM
-    /// </summary>
-    public void onBgmVolumeSliderValueChanged()
-    {
-        audioSource.volume = bgmVolumeSlider.value;
-    }
-
-    /// <summary>
-    /// Go back to the previous chapter
+    /// Go back to the previous chapter.
     /// </summary>
     public void GoBack()
     {
-        isMessageInterrupted = true;
+        _isMessageInterrupted = true;
         message.text = "";
-        SetCurrentChapter(previousChapter);
+        Chapter chapterToSet = currentChapter.PreviousChapter;
+
+        while (!ReferenceEquals(chapterToSet, null) && chapterToSet.nextBranches.Length < 2)
+        {
+            if (ReferenceEquals(chapterToSet, chapterToSet.PreviousChapter))
+            {
+                break;
+            }
+
+            chapterToSet = chapterToSet.PreviousChapter;
+        }
+
+        if (!ReferenceEquals(chapterToSet, null))
+        {
+            SetCurrentChapter(chapterToSet, true);
+        }
     }
 
     /// <summary>
-    /// Request the next message
+    /// Request the next message.
     /// </summary>
     public void RequestNextMessage()
     {
-        isNextMessageRequested = true;
+        _isNextMessageRequested = true;
     }
 
     /// <summary>
-    /// Set the name of the main character
+    /// Set the name of the main character.
     /// </summary>
     public void onMainCharNameInputFieldEndEdit()
     {
         MainCharacterName = mainCharNameInputField.text;
     }
 
+    // Start is called before the first frame update.
     private void Start()
     {
         SetCurrentChapter(currentChapter);
     }
 
+    // Update is called once per frame.
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            isNextMessageRequested = true;
+            _isNextMessageRequested = true;
         }
 
         ProcessNextMessageRequest();
@@ -235,16 +132,21 @@ public sealed class StoryManager : MonoBehaviour
 
     private void ProcessNextMessageRequest()
     {
-        if (Time.timeScale == 0)
+        if (gameManager.PauseManager.IsPaused)
         {
             return;
         }
 
-        if (isNextMessageRequested)
+        if (_ending.activeSelf)
         {
-            isNextMessageRequested = false;
+            return;
+        }
 
-            if (isFinishMessage)
+        if (_isNextMessageRequested)
+        {
+            _isNextMessageRequested = false;
+
+            if (_isFinishMessage)
             {
                 if (MessageIndex < currentChapter.messages.Length - 1)
                 {
@@ -258,7 +160,7 @@ public sealed class StoryManager : MonoBehaviour
             }
             else
             {
-                isMessageSkipRequested = true;
+                _isMessageSkipRequested = true;
             }
         }
     }
@@ -283,9 +185,16 @@ public sealed class StoryManager : MonoBehaviour
         StartCoroutine(TypeMessage(message.Content.Replace("[主人公の名前]", MainCharacterName)));
     }
 
-    private void SetCurrentChapter(Chapter chapter)
+    private void SetCurrentChapter(Chapter chapter, bool isFromGoBack = false)
     {
-        previousChapter = currentChapter;
+        _ending.SetActive(false);
+        _message.SetActive(true);
+
+        if (!isFromGoBack)
+        {
+            chapter.PreviousChapter = currentChapter;
+        }
+
         MessageIndex = 0;
         currentChapter = chapter;
 
@@ -300,75 +209,30 @@ public sealed class StoryManager : MonoBehaviour
             Debug.LogError("Background image is null");
         }
 
-        AudioClip audioClip = chapter.backGroundMusic;
-
-        if (!ReferenceEquals(audioClip, null))
-        {
-            isBgmNull = false;
-
-            // If the audio clip is not the same as the current one, change it
-            if (!ReferenceEquals(audioSource.clip, audioClip))
-            {
-                audioSource.clip = audioClip;
-
-                if (isBgmOn)
-                {
-                    audioSource.Play();
-                }
-            }
-        }
-        else
-        {
-            isBgmNull = true;
-            Debug.LogError("Background music is null");
-            audioSource.Stop();
-        }
+        gameManager.BgmManager.SetBgm(chapter.backGroundMusic);
 
         SetMessage();
     }
 
-    private void SetFirstNextBranch()
+    /// <summary>
+    /// Set the next branch by index.
+    /// </summary>
+    public void SetNextBranch(int index)
     {
-        if (currentChapter.nextBranches.Length < 1)
+        if (currentChapter.nextBranches.Length < index + 1)
         {
             LogUnexpectedChapterError();
             return;
         }
 
-        SetCurrentChapter(currentChapter.nextBranches[0].chapter);
+        SetCurrentChapter(currentChapter.nextBranches[index].chapter);
     }
 
-    private void SetSecondNextBranch()
+    private void ShowEnding()
     {
-        if (currentChapter.nextBranches.Length < 2)
-        {
-            LogUnexpectedChapterError();
-            return;
-        }
-
-        SetCurrentChapter(currentChapter.nextBranches[1].chapter);
-    }
-
-    private void SetThirdNextBranch()
-    {
-        if (currentChapter.nextBranches.Length < 3)
-        {
-            LogUnexpectedChapterError();
-            return;
-        }
-
-        SetCurrentChapter(currentChapter.nextBranches[2].chapter);
-    }
-
-    private void SetFourthNextBranch()
-    {
-        if (currentChapter.nextBranches.Length < 4)
-        {
-            LogUnexpectedChapterError();
-            return;
-        }
-
-        SetCurrentChapter(currentChapter.nextBranches[3].chapter);
+        _ending.SetActive(true);
+        _message.SetActive(false);
+        _endingMessageText.text = $"エンディング「{currentChapter.EndingName}」クリア！";
     }
 
     private void SetNextChapter()
@@ -378,6 +242,8 @@ public sealed class StoryManager : MonoBehaviour
         switch (nextBranches.Length)
         {
             case 0:
+                SceneManager.LoadScene(2, LoadSceneMode.Additive);
+                ShowEnding();
                 break;
 
             case 1:
@@ -385,24 +251,15 @@ public sealed class StoryManager : MonoBehaviour
                 break;
 
             case 2:
-                selection2.SetActive(true);
-                selection2option1text.text = nextBranches[0].choiceMessage;
-                selection2option2text.text = nextBranches[1].choiceMessage;
+                gameManager.SelectionManager.SetSelection(nextBranches[0].choiceMessage, nextBranches[1].choiceMessage);
                 break;
 
             case 3:
-                selection3.SetActive(true);
-                selection3option1text.text = nextBranches[0].choiceMessage;
-                selection3option2text.text = nextBranches[1].choiceMessage;
-                selection3option3text.text = nextBranches[2].choiceMessage;
+                gameManager.SelectionManager.SetSelection(nextBranches[0].choiceMessage, nextBranches[1].choiceMessage, nextBranches[2].choiceMessage);
                 break;
 
             case 4:
-                selection4.SetActive(true);
-                selection4option1text.text = nextBranches[0].choiceMessage;
-                selection4option2text.text = nextBranches[1].choiceMessage;
-                selection4option3text.text = nextBranches[2].choiceMessage;
-                selection4option4text.text = nextBranches[3].choiceMessage;
+                gameManager.SelectionManager.SetSelection(nextBranches[0].choiceMessage, nextBranches[1].choiceMessage, nextBranches[2].choiceMessage, nextBranches[3].choiceMessage);
                 break;
 
             default:
@@ -413,26 +270,26 @@ public sealed class StoryManager : MonoBehaviour
 
     private IEnumerator TypeMessage(string messageContent)
     {
-        while (!isFinishMessage)
+        while (!_isFinishMessage)
         {
             yield return delay;
         }
 
         message.text = "";
-        isFinishMessage = false;
+        _isFinishMessage = false;
 
         foreach (char letter in messageContent.ToCharArray())
         {
-            if (isMessageInterrupted)
+            if (_isMessageInterrupted)
             {
-                isMessageInterrupted = false;
+                _isMessageInterrupted = false;
                 break;
             }
 
-            if (isMessageSkipRequested)
+            if (_isMessageSkipRequested)
             {
                 message.text = messageContent;
-                isMessageSkipRequested = false;
+                _isMessageSkipRequested = false;
                 break;
             }
 
@@ -440,6 +297,6 @@ public sealed class StoryManager : MonoBehaviour
             yield return delay;
         }
 
-        isFinishMessage = true;
+        _isFinishMessage = true;
     }
 }

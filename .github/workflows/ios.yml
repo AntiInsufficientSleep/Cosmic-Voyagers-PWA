@@ -1,0 +1,94 @@
+name: Unity iOS Build
+
+on:
+  workflow_dispatch
+
+jobs:
+  unity-build:
+    name: Unity Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: ${{ runner.os }}-iOS-library-${{ hashFiles('**/Library/*') }}
+          restore-keys: |
+            ${{ runner.os }}-iOS-library-
+
+      - name: Build Project
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          unityVersion: '2022.3.20f1'
+          targetPlatform: iOS
+
+      - name: Upload Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build-iOS
+          path: build/iOS
+          
+  iOS-build:
+    name: Generate IPA
+    runs-on: macos-14
+    needs: unity-build
+
+    steps:
+      - name: Download Xcode Project
+        uses: actions/download-artifact@v4
+        with:
+          name: Build-iOS
+          path: build/iOS
+
+      - name: Create ExportOptions.plist
+        run: |
+          echo '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>method</key><string>app-store</string><key>teamID</key><string>ZGQ36244W3</string><key>uploadSymbols</key><true/><key>compileBitcode</key><true/></dict></plist>' > ExportOptions.plist
+        
+      - name: Build Project
+        run: |
+          xcodebuild -project build/iOS/iOS/Unity-iPhone.xcodeproj \
+                     -scheme Unity-iPhone \
+                     -sdk iphoneos \
+                     -configuration Release \
+                     CODE_SIGNING_ALLOWED=NO \
+                     build
+
+      - name: Archive Project
+        run: |                        
+          xcodebuild archive -project build/iOS/iOS/Unity-iPhone.xcodeproj \
+                             -scheme Unity-iPhone \
+                             -sdk iphoneos \
+                             -configuration Release \
+                             -archivePath build/iOS/Unity-iPhone.xcarchive \
+                             CODE_SIGNING_ALLOWED=NO
+
+      - name: Create Private Key
+        run: |
+          mkdir private_keys
+          echo -n "${{ secrets.APPLE_API_KEY }}" | base64 --decode > ./private_keys/AuthKey_${{ secrets.APPLE_API_ISSUER_ID }}.p8
+
+      - name: Export IPA
+        run: |   
+          xcodebuild -exportArchive \
+                     -archivePath build/iOS/Unity-iPhone.xcarchive \
+                     -exportOptionsPlist ExportOptions.plist \
+                     -exportPath build/iOS/app.ipa \
+                     -allowProvisioningUpdates \
+                     -authenticationKeyPath `pwd`/private_keys/AuthKey_${{ secrets.APPLE_API_ISSUER_ID }}.p8 \
+                     -authenticationKeyID ${{ secrets.APPLE_API_KEY_ID }} \
+                     -authenticationKeyIssuerID ${{ secrets.APPLE_API_ISSUER_ID }}
+
+      - name: Upload IPA to App Store Connect
+        run: |
+          xcrun altool --upload-app -f build/iOS/app.ipa/CosmicVoyagers.ipa \
+                       -u ${{ secrets.APPLE_ID }} \
+                       -p ${{ secrets.APP_SPECIFIC_PASSWORD }} \
+                       --type ios
