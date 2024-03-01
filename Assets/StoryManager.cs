@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Manage the story.
@@ -136,6 +137,11 @@ public sealed class StoryManager : MonoBehaviour
             return;
         }
 
+        if (_ending.activeSelf)
+        {
+            return;
+        }
+
         if (_isNextMessageRequested)
         {
             _isNextMessageRequested = false;
@@ -236,6 +242,7 @@ public sealed class StoryManager : MonoBehaviour
         switch (nextBranches.Length)
         {
             case 0:
+                SceneManager.LoadScene(2, LoadSceneMode.Additive);
                 ShowEnding();
                 break;
 
