@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public sealed class StoryManager : MonoBehaviour
 {
-    private static readonly WaitForSeconds delay = new(0.1f);
+    private static readonly WaitForSeconds delay = new(0.075f);
 
     [SerializeField]
     private GameManager gameManager;
